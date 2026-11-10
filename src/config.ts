@@ -29,7 +29,7 @@ export const DEFAULTS = {
   topP: 0.95,
   preserveThinking: true,
   timeoutMs: 600_000,
-  maxFileKb: 512,
+  maxFileKb: 1536,
   maxTotalKb: 1536,
   maxFiles: 20,
   maxConversations: 50,
