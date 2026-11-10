@@ -6,4 +6,5 @@ coverage/
 .env.*
 !.env.example
 verify-report.json
+*.tgz
 .DS_Store
