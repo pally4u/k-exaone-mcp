@@ -290,8 +290,6 @@ npm run smoke        # 빌드된 서버를 stdio MCP로 띄워 실제 사용 흐
 npm run inspect      # MCP Inspector로 도구를 직접 호출해 보기
 ```
 
-npm 배포 절차는 [docs/PUBLISHING.md](docs/PUBLISHING.md)에 정리했습니다.
-
 npm 배포 전에 로컬 빌드로 연결하려면 `npx -y k-exaone-mcp` 대신 `node /절대경로/k-exaone-mcp/dist/index.js`를 씁니다.
 
 ### 구조
