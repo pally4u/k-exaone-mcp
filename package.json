@@ -1,0 +1,54 @@
+{
+  "name": "k-exaone-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that lets Claude, Gemini (Antigravity), Cline and other MCP clients delegate work to LG AI Research's K-EXAONE 2.5 via the EXAONE API.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "exaone",
+    "k-exaone",
+    "lg-ai-research",
+    "claude",
+    "llm"
+  ],
+  "license": "MIT",
+  "author": "pally4u",
+  "homepage": "https://github.com/pally4u/k-exaone-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pally4u/k-exaone-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pally4u/k-exaone-mcp/issues"
+  },
+  "type": "module",
+  "bin": {
+    "k-exaone-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "verify:api": "node scripts/verify-api.mjs",
+    "smoke": "node scripts/smoke-mcp.mjs",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
