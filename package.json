@@ -1,7 +1,7 @@
 {
   "name": "k-exaone-mcp",
   "version": "0.1.0",
-  "description": "MCP server that lets Claude, Gemini (Antigravity), Cline and other MCP clients delegate work to LG AI Research's K-EXAONE 2.5 via the EXAONE API.",
+  "description": "MCP server that lets Claude, Gemini (Antigravity), Codex, Cline and other MCP clients delegate work to LG AI Research's K-EXAONE 2.5 via the EXAONE API.",
   "keywords": [
     "mcp",
     "model-context-protocol",
@@ -9,6 +9,8 @@
     "k-exaone",
     "lg-ai-research",
     "claude",
+    "codex",
+    "gemini",
     "llm"
   ],
   "license": "MIT",
