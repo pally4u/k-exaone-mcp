@@ -29,7 +29,30 @@ Hermes나 OpenCode 같은 별도 에이전트 CLI를 설치하지 않아도 되�
 
 [EXAONE API Platform](https://docs.exaone.ai/ko/docs/authentication)에서 키를 발급받습니다.
 
-### 2. MCP 클라이언트에 등록
+### 2. 실행 방식 고르기
+
+| 방식 | 명령 | 장점 | 단점 |
+|---|---|---|---|
+| **npx** (권장) | `npx -y k-exaone-mcp` | 미리 설치할 필요가 없고 새 버전이 자동으로 반영됨 | 첫 실행 때 내려받느라 몇 초 걸림 |
+| **전역 설치** | `k-exaone-mcp` | 시작이 빠르고, 한 번 설치하면 인터넷 없이도 실행됨 | 업데이트를 직접 해야 함 |
+
+전역 설치는 이렇게 합니다. 업데이트할 때도 같은 명령을 다시 실행합니다.
+
+```bash
+npm install -g k-exaone-mcp@latest
+```
+
+설치를 확인합니다. 버전 번호가 나오면 정상입니다.
+
+```bash
+k-exaone-mcp --version
+```
+
+> `npm install k-exaone-mcp`처럼 `-g` 없이 설치하면 현재 폴더의 `node_modules`에만 설치돼서 MCP 클라이언트가 찾지 못합니다. 반드시 `-g`를 붙이세요.
+
+아래 설정 예시는 npx 방식 기준입니다. 전역 설치를 했다면 `npx -y k-exaone-mcp` 부분을 `k-exaone-mcp`로 바꾸면 됩니다. JSON 설정에서는 `"command": "k-exaone-mcp", "args": []`가 되고, Windows에서는 `"command": "cmd", "args": ["/c", "k-exaone-mcp"]`가 됩니다.
+
+### 3. MCP 클라이언트에 등록
 
 필요한 설정은 **`EXAONE_API_KEY` 하나뿐**입니다. 공식 가이드에 나온 `temperature=1.0`, `top_p=0.95`, `preserve_thinking=true` 같은 권장값은 서버에 기본값으로 들어 있습니다. 추론 강도나 시간 제한 같은 값을 바꾸는 방법은 [세부 설정 바꾸기](#세부-설정-바꾸기)를 보세요.
 
@@ -46,14 +69,28 @@ Hermes나 OpenCode 같은 별도 에이전트 CLI를 설치하지 않아도 되�
 <details open>
 <summary><b>Claude Code</b></summary>
 
+macOS · Linux:
+
 ```bash
 claude mcp add exaone --scope user -e EXAONE_API_KEY=발급받은키 -- npx -y k-exaone-mcp
 ```
 
-Windows(네이티브)에서는 `npx` 앞에 `cmd /c`를 붙입니다.
+Windows에서는 `npx` 앞에 `cmd /c`를 붙입니다. 명령 프롬프트(cmd)나 Git Bash에서는 이렇게 실행합니다.
 
 ```bash
 claude mcp add exaone --scope user -e EXAONE_API_KEY=발급받은키 -- cmd /c npx -y k-exaone-mcp
+```
+
+**Windows PowerShell에서는 `--`를 따옴표로 감싼 `'--'`로 써야 합니다.** PowerShell이 그냥 쓴 `--`를 지워 버려서 `error: unknown option '-y'`가 납니다.
+
+```powershell
+claude mcp add exaone --scope user -e EXAONE_API_KEY=발급받은키 '--' cmd /c npx -y k-exaone-mcp
+```
+
+등록됐는지 확인합니다. 도구는 **새로 연 세션부터** 보입니다.
+
+```bash
+claude mcp list
 ```
 </details>
 
@@ -89,6 +126,8 @@ claude mcp add exaone --scope user -e EXAONE_API_KEY=발급받은키 -- cmd /c n
 ```bash
 codex mcp add exaone --env EXAONE_API_KEY=발급받은키 -- npx -y k-exaone-mcp
 ```
+
+Windows PowerShell에서는 Claude Code와 마찬가지로 `--`를 `'--'`로 씁니다.
 
 등록한 뒤 `~/.codex/config.toml`(Windows는 `%USERPROFILE%\.codex\config.toml`)을 열어 `tool_timeout_sec`을 추가합니다. Codex는 도구 하나가 60초 안에 끝나지 않으면 끊는데, EXAONE이 깊게 추론하면 60초를 넘길 수 있습니다.
 
@@ -126,7 +165,7 @@ EXAONE_API_KEY = "발급받은키"
 ```
 </details>
 
-### 3. 써 보기
+### 4. 써 보기
 
 클라이언트를 다시 시작한 뒤 이렇게 요청해 보세요.
 
@@ -232,6 +271,8 @@ EXAONE API는 [응답 헤더](https://docs.exaone.ai/ko/docs/rate-limits)로 남
 claude mcp remove exaone --scope user
 claude mcp add exaone --scope user -e EXAONE_API_KEY=발급받은키 -e EXAONE_REASONING_EFFORT=medium -e EXAONE_TIMEOUT_MS=300000 -- npx -y k-exaone-mcp
 ```
+
+Windows에서는 `npx` 앞에 `cmd /c`를 붙이고, PowerShell이면 `--`를 `'--'`로 씁니다([Claude Code 등록](#3-mcp-클라이언트에-등록) 참고).
 
 `~/.claude.json`에서 `mcpServers.exaone.env`를 직접 고쳐도 됩니다.
 
